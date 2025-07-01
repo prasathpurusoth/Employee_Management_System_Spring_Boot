@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Find the Person</title>
+    <style>
+        button {
+            border-radius: 10px;
+            border-color: rgb(0, 0, 0);
+        }
+
+        div {
+            border: 5px solid gold;
+            padding: 20px;
+            margin: 50px;
+            background-color: wheat;
+            border-radius: 10px;
+        }
+
+        body {
+            background-color: black;
+            color: white;
+        }
+
+        td{
+            color: rgb(0, 0, 0);
+            background-color: chartreuse;
+            text-align: center;
+        }
+        th {
+            color: rgb(255, 255, 255);
+            background-color: chocolate;
+            width: 100px;
+        }
+        label{color: black;}
+    </style>
+</head>
+
+<body>
+    <h1 style="color: aquamarine; text-align: center;">Find the Person</h1><br><br>
+
+    <div align="center">
+        <label for="name"> The Person Name: </label>
+        <input type="text" id="name"><br><br>
+        <button onclick="findPerson()">Search</button>
+    </div>
+
+    <div align="center">
+        <table border="2">
+            <tr>
+                <th>Employee ID</th>
+                <th>Employee Mail</th>
+                <th>Employee Department</th>
+                <th>Shift</th>
+            </tr>
+            <tbody id="getdata2"></tbody>
+        </table>
+    </div>
+
+    <div align="center">
+        <a href="index.html"><button>Home</button></a>
+        <a href="Employee_Details.html"><button>Employee Details</button></a>
+        <a href="Department_Details.html"><button>Department Details</button></a>
+        <a href="Application.html"><button>Application</button></a>
+    </div>
+
+    <script>
+        function findPerson() {
+            const name = document.getElementById("name").value;
+
+            fetch("http://localhost:8080/emp/get?name=" + name)
+                .then((response) => response.json())
+                .then((employees) => {
+                    const datas = document.getElementById("getdata2");
+                    datas.innerHTML = "";
+
+                    employees.forEach(emp => {
+                        const row = `
+                            <tr>
+                                <td>${emp.emp_id}</td>
+                                <td>${emp.emp_mail}</td>
+                                <td>${emp.emp_department}</td>
+                                <td>${emp.emp_shift}</td>
+                            </tr>`;
+                        datas.innerHTML += row;
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching data:", error);
+                });
+        }
+    </script>
+
+</body>
+
+</html>

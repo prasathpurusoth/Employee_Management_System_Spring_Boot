@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Department Details</title>
+    <style>
+        td {
+            color: rgb(0, 0, 0);
+            background-color: chartreuse;
+            text-align: center;
+        }
+        th {
+            color: rgb(255, 255, 255);
+            background-color: chocolate;
+            width: 100px;
+        }
+        a {
+            text-align: center;
+        }
+        button {
+            border-radius: 10px;
+        }
+        div {
+            border: 5px solid gold;
+            padding: 20px;
+            margin: 50px;
+            background-color: wheat;
+            border-radius: 10px;
+        }
+        body {
+            background-color: black;
+        }
+    </style>
+    <script>
+        function Department() {
+            fetch("http://localhost:8080/depart/getAll")
+                .then((response) => response.json())
+                .then((departs) => {
+                    const datas = document.getElementById("getdata");
+                    datas.innerHTML = ""; // Clear previous data
+
+                    departs.forEach(data => {
+                        var row = `
+                            <tr>
+                                <td>${data.dept_id}</td>
+                                <td>${data.dept_name}</td>
+                                <td>${data.dept_shift}</td>            
+                                <td>${data.salary}</td>
+                            </tr>
+                        `;
+                        datas.innerHTML += row;
+                    });
+                })
+                .catch(error => console.error("Error loading departments:", error));
+        }
+
+        window.onload = function () {
+            Department();
+        };
+    </script>
+</head>
+
+<body>
+    <h1 style="text-align: center; color: aquamarine;">Department Details</h1><br><br>
+    <div align="center">
+        <table border="2">
+            <tr>
+                <th>Department ID</th>
+                <th>Department Name</th>
+                <th>Shift</th>
+                <th>Salary</th>
+            </tr>
+            <tbody id="getdata"></tbody>
+        </table>
+    </div>
+    <div align="center">
+        <a href="index.html"><button>Home</button></a>
+        <a href="Employee_Details.html"><button>Employee Details</button></a>
+        <a href="Application.html"><button>Application</button></a>
+        <a href="FindthePerson.html"><button>Find the Person</button></a>
+    </div>
+</body>
+</html>
